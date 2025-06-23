@@ -11,6 +11,11 @@ import BarbershopItem from "./_components/BarberShopItem";
 
 const Home = async () => {
   const barbershops = await db.barbershop.findMany({});
+  const popularBarbershop = await db.barbershop.findMany({
+    orderBy: {
+      name: "desc",
+    },
+  });
 
   return (
     <div>
@@ -66,6 +71,7 @@ const Home = async () => {
           </CardContent>
         </Card>
 
+        {/* BARBEARIAS */}
         <h2 className="text-gray-400 font-bold text-xs mt-6 mb-3">
           RECOMENDADOS
         </h2>
@@ -74,7 +80,25 @@ const Home = async () => {
             <BarbershopItem key={barbershop.id} barbershop={barbershop} />
           ))}
         </div>
+
+        <h2 className="text-gray-400 font-bold text-xs mt-6 mb-3">POPULARES</h2>
+        <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+          {popularBarbershop.map((barbershop) => (
+            <BarbershopItem key={barbershop.id} barbershop={barbershop} />
+          ))}
+        </div>
       </div>
+
+      {/* FOOTER */}
+      <footer>
+        <Card>
+          <CardContent className="px-5 py-6">
+            <p className="text-sm text-gray-400">
+              © 2025 Copyright <span className="font-bold">FSW Barber</span>
+            </p>
+          </CardContent>
+        </Card>
+      </footer>
     </div>
   );
 };
