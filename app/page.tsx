@@ -1,24 +1,15 @@
 import { SearchIcon } from "lucide-react";
+import Image from "next/image";
+import BookingItem from "./_components/BookingItem";
 import Header from "./_components/Header";
 import { Button } from "./_components/ui/button";
 import { Input } from "./_components/ui/input";
-import Image from "next/image";
-import { Card, CardContent } from "./_components/ui/card";
-import { Badge } from "./_components/ui/badge";
-import { db } from "./_lib/prisma";
-import { Avatar, AvatarImage } from "./_components/ui/avatar";
-import BarbershopItem from "./_components/BarberShopItem";
-import { quickSearchOptions } from "./_constants/search";
-import QuickSearchButton from "./_components/QuickSearchButton";
+import { PopularBarbershop } from "./_components/BarbershopsList";
+import { Barbershops } from "./_components/BarbershopsList";
+import Footer from "./_components/Footer";
+import QuickSearchItems from "./_components/QuickSearchItems";
 
 const Home = async () => {
-  const barbershops = await db.barbershop.findMany({});
-  const popularBarbershop = await db.barbershop.findMany({
-    orderBy: {
-      name: "desc",
-    },
-  });
-
   return (
     <div>
       <Header />
@@ -34,84 +25,32 @@ const Home = async () => {
           </Button>
         </div>
         {/* Busca rápida */}
-        <div className="flex gap-2 mt-6 overflow-auto [&::-webkit-scrollbar]:hidden">
-          {quickSearchOptions.map((option) => (
-            <QuickSearchButton
-              key={option.title}
-              imageUrl={option.imageUrl}
-              title={option.title}
-            />
-          ))}
-        </div>
+        <QuickSearchItems />
 
         {/* Banner */}
-        <div className="relative mt-6 h-[150px] w-full">
-          <Image
-            fill
-            src={"/banner1.png"}
-            alt="Banner: Agende com os melhores na fsw Barber"
-            className="object-cover rounded-xl"
-          />
+        <div className="w-full flex justify-center mt-6 px-4">
+          <div className="relative w-full max-w-5xl h-[350px]">
+            <Image
+              src="/banner1.png"
+              alt="Banner: Agende com os melhores na fsw Barber"
+              fill
+              className="object-cover rounded-xl"
+            />
+          </div>
         </div>
 
         {/* AGENDAMENTOS */}
-        <h2 className="text-gray-400 font-bold text-xs mt-6 mb-3">
-          AGENDAMENTOS
-        </h2>
-
-        {/* CARD AGENDAMENTOS */}
-        <Card>
-          <CardContent className="flex justify-between p-0">
-            {/* ESQUERDA */}
-            <div className="flex flex-col gap-2 py-5 pl-5">
-              <Badge className="w-fit">Confirmado</Badge>
-              <h3 className="font-semibold">Corte de Cabelo</h3>
-
-              <div className="flex items-center gap-2">
-                <Avatar className="w-6 h-6">
-                  <AvatarImage src="https://utfs.io/f/c97a2dc9-cf62-468b-a851-bfd2bdde775f-16p.png"></AvatarImage>
-                </Avatar>
-                <p className="text-sm">Barbearia do João</p>
-              </div>
-            </div>
-            {/* DIREITA */}
-            <div className="flex flex-col items-center justify-center px-5 border-l border-solid">
-              <p className="text-sm">Junho</p>
-              <p className="text-2xl">23</p>
-              <p className="text-sm">10:00</p>
-            </div>
-          </CardContent>
-        </Card>
+        <BookingItem />
 
         {/* BARBEARIAS */}
-        <h2 className="text-gray-400 font-bold text-xs mt-6 mb-3">
-          RECOMENDADOS
-        </h2>
-        <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
-          {barbershops.map((barbershop) => (
-            <BarbershopItem key={barbershop.id} barbershop={barbershop} />
-          ))}
-        </div>
-
-        <h2 className="text-gray-400 font-bold text-xs mt-6 mb-3">POPULARES</h2>
-        <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
-          {popularBarbershop.map((barbershop) => (
-            <BarbershopItem key={barbershop.id} barbershop={barbershop} />
-          ))}
-        </div>
+        <Barbershops />
+        <PopularBarbershop />
       </div>
 
       {/* FOOTER */}
-      <footer>
-        <Card>
-          <CardContent className="px-5 py-6">
-            <p className="text-sm text-gray-400">
-              © 2025 Copyright <span className="font-bold">FSW Barber</span>
-            </p>
-          </CardContent>
-        </Card>
-      </footer>
+      <Footer />
     </div>
   );
 };
+
 export default Home;
