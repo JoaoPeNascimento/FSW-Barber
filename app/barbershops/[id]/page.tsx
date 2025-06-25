@@ -1,8 +1,10 @@
 import PhoneItem from "@/app/_components/PhoneItem";
 import ServiceItem from "@/app/_components/ServiceItem";
+import SidebarContent from "@/app/_components/SidebarContent";
 import { Button } from "@/app/_components/ui/button";
+import { Sheet, SheetTrigger } from "@/app/_components/ui/sheet";
 import { db } from "@/app/_lib/prisma";
-import { ChevronLeft, MapPin, MenuIcon, StarIcon } from "lucide-react";
+import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -14,6 +16,7 @@ interface BarbershopPageProps {
 }
 
 const BarbershopPage = async ({ params }: BarbershopPageProps) => {
+  // chamar o meu banco de dados
   const barbershop = await db.barbershop.findUnique({
     where: {
       id: params.id,
@@ -29,57 +32,61 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
 
   return (
     <div>
-      {/* Imagem */}
+      {/* IMAGEM */}
       <div className="relative h-[250px] w-full">
         <Image
+          alt={barbershop.name}
           src={barbershop?.imageUrl}
-          alt={barbershop?.name}
           fill
           className="object-cover"
         />
 
         <Button
-          className="absolute left-4 top-4"
+          size="icon"
           variant="secondary"
-          size={"icon"}
+          className="absolute left-4 top-4"
           asChild
         >
           <Link href="/">
-            <ChevronLeft />
+            <ChevronLeftIcon />
           </Link>
         </Button>
 
-        <Button
-          className="absolute right-4 top-4"
-          variant="secondary"
-          size={"icon"}
-        >
-          <Link href="/">
-            <MenuIcon />
-          </Link>
-        </Button>
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button
+              size="icon"
+              variant="outline"
+              className="absolute right-4 top-4"
+            >
+              <MenuIcon />
+            </Button>
+          </SheetTrigger>
+          <SidebarContent />
+        </Sheet>
       </div>
 
-      {/* Endereço */}
+      {/* TÍTULO */}
       <div className="border-b border-solid p-5">
-        <h1 className="text-xl mb-3 font-bold">{barbershop.name}</h1>
-        <div className="flex items-center gap-2">
-          <MapPin size={16} className="text-primary" />
-          <p className="text-sm">{barbershop.adress}</p>
+        <h1 className="mb-3 text-xl font-bold">{barbershop.name}</h1>
+        <div className="mb-2 flex items-center gap-2">
+          <MapPinIcon className="text-primary" size={18} />
+          <p className="text-sm">{barbershop?.adress}</p>
         </div>
+
         <div className="flex items-center gap-2">
-          <StarIcon size={16} className="text-primary fill-primary" />
-          <p className="text-sm">5,0 (400 avaliações)</p>
+          <StarIcon className="fill-primary text-primary" size={18} />
+          <p className="text-sm">5,0 (499 avaliações)</p>
         </div>
       </div>
 
-      {/* Descrição */}
-      <div className="p-5 space-y-2 border-b border-solid">
-        <h2 className="text-xs font-bold text-gray-400 uppercase">Sobre nós</h2>
-        <p className="text-justify text-sm">{barbershop.description}</p>
+      {/* DESCRIÇÃO */}
+      <div className="space-y-2 border-b border-solid p-5">
+        <h2 className="text-xs font-bold uppercase text-gray-400">Sobre nós</h2>
+        <p className="text-justify text-sm">{barbershop?.description}</p>
       </div>
 
-      {/* Serviços */}
+      {/* SERVIÇOS */}
       <div className="p-5 space-y-3 border-b border-solid">
         <h2 className="text-gray-400 text-xs font-bold uppercase">Serviços</h2>
         <div className="space-y-3">
@@ -89,8 +96,8 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
         </div>
       </div>
 
-      {/* Contatos */}
-      <div className="p-5 space-y-3">
+      {/* CONTATO */}
+      <div className="space-y-3 p-5">
         {barbershop.phones.map((phone) => (
           <PhoneItem key={phone} phone={phone} />
         ))}
