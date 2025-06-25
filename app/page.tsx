@@ -6,7 +6,6 @@ import { Button } from "./_components/ui/button";
 import { Input } from "./_components/ui/input";
 import { PopularBarbershop } from "./_components/BarbershopsList";
 import { Barbershops } from "./_components/BarbershopsList";
-import Footer from "./_components/Footer";
 import QuickSearchItems from "./_components/QuickSearchItems";
 
 const Home = async () => {
@@ -46,9 +45,6 @@ const Home = async () => {
         <Barbershops />
         <PopularBarbershop />
       </div>
-
-      {/* FOOTER */}
-      <Footer />
     </div>
   );
 };
