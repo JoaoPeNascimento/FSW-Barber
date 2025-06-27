@@ -102,14 +102,19 @@ const SidebarContent = () => {
             key={option.title}
             className="justify-start gap-2"
             variant="ghost"
+            asChild
           >
-            <Image
-              src={option.imageUrl}
-              alt={option.title}
-              width={18}
-              height={18}
-            />
-            {option.title}
+            <Link href={`/barbershops?search=${option.title}`}>
+              <span className="flex items-center gap-2">
+                <Image
+                  src={option.imageUrl}
+                  alt={option.title}
+                  width={18}
+                  height={18}
+                />
+                {option.title}
+              </span>
+            </Link>
           </Button>
         ))}
       </div>
