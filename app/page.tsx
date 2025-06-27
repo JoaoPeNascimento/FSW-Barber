@@ -1,12 +1,10 @@
-import { SearchIcon } from "lucide-react";
 import Image from "next/image";
 import BookingItem from "./_components/BookingItem";
 import Header from "./_components/Header";
-import { Button } from "./_components/ui/button";
-import { Input } from "./_components/ui/input";
 import { PopularBarbershop } from "./_components/BarbershopsList";
 import { Barbershops } from "./_components/BarbershopsList";
 import QuickSearchItems from "./_components/QuickSearchItems";
+import SearchInput from "./_components/Search";
 
 const Home = async () => {
   return (
@@ -17,11 +15,8 @@ const Home = async () => {
         <p>Sexta-feira, 20 de Junho</p>
 
         {/* Search */}
-        <div className="flex gap-2 mt-6 items-center">
-          <Input placeholder="Pesquisar..." />
-          <Button>
-            <SearchIcon />
-          </Button>
+        <div className="my-6">
+          <SearchInput />
         </div>
         {/* Busca rápida */}
         <QuickSearchItems />
