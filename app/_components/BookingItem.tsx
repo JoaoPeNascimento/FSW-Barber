@@ -1,3 +1,5 @@
+"use client";
+
 import { format, isFuture } from "date-fns";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { Badge } from "./ui/badge";
@@ -6,13 +8,29 @@ import { Prisma } from "@prisma/client";
 import { ptBR } from "date-fns/locale/pt-BR";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet";
 import Image from "next/image";
 import PhoneItem from "./PhoneItem";
+import { useState } from "react";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
+import { Button } from "./ui/button";
+import { deleteBooking } from "../_actions/delete-booking";
+import { toast } from "sonner";
 
 interface BookingItemProps {
   booking: Prisma.BookingGetPayload<{
@@ -27,16 +45,31 @@ interface BookingItemProps {
 }
 
 const BookingItem = ({ booking }: BookingItemProps) => {
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const isConfirmed = isFuture(booking.date);
 
   const {
     service: { barbershop },
   } = booking;
 
+  const handleSheetOpenChange = (isSheetOpen: boolean) => {
+    setIsSheetOpen(isSheetOpen);
+  };
+
+  const handleCancelBooking = async () => {
+    try {
+      await deleteBooking(booking.id);
+      toast.success("Agendamento cancelado com sucesso!");
+    } catch (error) {
+      toast.error("Erro ao cancelar agendamento!");
+      console.log(error);
+    }
+  };
+
   return (
     <>
       {/* CARD AGENDAMENTOS */}
-      <Sheet>
+      <Sheet open={isSheetOpen} onOpenChange={handleSheetOpenChange}>
         <SheetTrigger asChild>
           <Card className="min-w-[90%]">
             <CardContent className="flex justify-between p-0">
@@ -74,7 +107,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
             </CardContent>
           </Card>
         </SheetTrigger>
-        <SheetContent className="min-w-[90%]">
+        <SheetContent className="min-w-[85%%]">
           <SheetHeader>
             <SheetTitle className="text-left">
               Informações da reserva
@@ -152,6 +185,47 @@ const BookingItem = ({ booking }: BookingItemProps) => {
               ))}
             </div>
           </div>
+          <SheetFooter className="mt-6">
+            <div className="flex items-center gap-3">
+              <SheetClose asChild>
+                <Button variant="outline" className="w-full">
+                  Voltar
+                </Button>
+              </SheetClose>
+              {isConfirmed && (
+                <Dialog>
+                  <DialogTrigger className="w-full">
+                    <Button variant="destructive" className="w-full">
+                      cancelar reserva
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="w-[90%]">
+                    <DialogHeader>
+                      <DialogTitle>Você quer cancelar sua reserva?</DialogTitle>
+                      <DialogDescription>
+                        Você tem certeza que deseja cancelar sua reserva? Ao
+                        realizar esta ação não será mais possível reverter
+                      </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter className="flex-row gap-3">
+                      <DialogClose asChild>
+                        <Button variant="outline" className="w-full">
+                          Voltar
+                        </Button>
+                      </DialogClose>
+                      <Button
+                        variant="destructive"
+                        className="w-full"
+                        onClick={handleCancelBooking}
+                      >
+                        Cancelar
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+              )}
+            </div>
+          </SheetFooter>
         </SheetContent>
       </Sheet>
     </>
