@@ -5,8 +5,34 @@ import { PopularBarbershop } from "./_components/BarbershopsList";
 import { Barbershops } from "./_components/BarbershopsList";
 import QuickSearchItems from "./_components/QuickSearchItems";
 import SearchInput from "./_components/Search";
+import { getServerSession } from "next-auth";
+import { db } from "./_lib/prisma";
+import { authOptions } from "./_lib/auth";
+import Title from "./_components/Title";
 
 const Home = async () => {
+  const session = await getServerSession(authOptions);
+  const confirmedBookings = session?.user
+    ? await db.booking.findMany({
+        where: {
+          userId: session?.user.id,
+          date: {
+            gte: new Date(),
+          },
+        },
+        include: {
+          service: {
+            include: {
+              barbershop: true,
+            },
+          },
+        },
+        orderBy: {
+          date: "asc",
+        },
+      })
+    : [];
+
   return (
     <div>
       <Header />
@@ -34,7 +60,12 @@ const Home = async () => {
         </div>
 
         {/* AGENDAMENTOS */}
-        <BookingItem />
+        <Title>Agendamentos</Title>
+        <div className="flex overflow-x-auto gap-3 [&::-webkit-scrollbar]:hidden">
+          {confirmedBookings.map((booking) => (
+            <BookingItem booking={booking} key={booking.id} />
+          ))}
+        </div>
 
         {/* BARBEARIAS */}
         <Barbershops />
