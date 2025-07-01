@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky"
+    "prepare": "husky install && prisma generate"
   },
   "prisma": {
     "seed": "ts-node --project tsconfig.seed.json prisma/seed.ts"
@@ -43,6 +43,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.30",
     "git-commit-msg-linter": "^5.0.8",
+    "husky": "^9.1.7",
     "lint-staged": "^16.1.2",
     "postcss": "^8",
     "prettier": "^3.5.3",
