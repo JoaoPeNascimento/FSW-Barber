@@ -6,34 +6,15 @@ import { Barbershops } from "./_components/BarbershopsList";
 import QuickSearchItems from "./_components/QuickSearchItems";
 import SearchInput from "./_components/Search";
 import { getServerSession } from "next-auth";
-import { db } from "./_lib/prisma";
 import { authOptions } from "./_lib/auth";
 import Title from "./_components/Title";
 import { format } from "date-fns/format";
 import { ptBR } from "date-fns/locale/pt-BR";
+import { getConfirmedBookings } from "./_data/get-confirmed-bookings";
 
 const Home = async () => {
   const session = await getServerSession(authOptions);
-  const confirmedBookings = session?.user
-    ? await db.booking.findMany({
-        where: {
-          userId: session?.user.id,
-          date: {
-            gte: new Date(),
-          },
-        },
-        include: {
-          service: {
-            include: {
-              barbershop: true,
-            },
-          },
-        },
-        orderBy: {
-          date: "asc",
-        },
-      })
-    : [];
+  const confirmedBookings = await getConfirmedBookings();
 
   return (
     <div>
