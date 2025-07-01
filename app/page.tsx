@@ -60,24 +60,26 @@ const Home = async () => {
         <QuickSearchItems />
 
         {/* Banner */}
-        <div className="w-full flex justify-center mt-6 px-4">
-          <div className="relative w-full max-w-5xl h-[350px]">
-            <Image
-              src="/banner1.png"
-              alt="Banner: Agende com os melhores na fsw Barber"
-              fill
-              className="object-cover rounded-xl"
-            />
-          </div>
+        <div className="relative mt-6 h-[150px] w-full">
+          <Image
+            alt="Agende nos melhores com FSW Barber"
+            src="/Banner1.png"
+            fill
+            className="rounded-xl object-cover"
+          />
         </div>
 
         {/* AGENDAMENTOS */}
-        <Title>Agendamentos</Title>
-        <div className="flex overflow-x-auto gap-3 [&::-webkit-scrollbar]:hidden">
-          {confirmedBookings.map((booking) => (
-            <BookingItem booking={booking} key={booking.id} />
-          ))}
-        </div>
+        {confirmedBookings.length > 0 && (
+          <>
+            <Title>Agendamentos</Title>
+            <div className="flex overflow-x-auto gap-3 [&::-webkit-scrollbar]:hidden">
+              {confirmedBookings.map((booking) => (
+                <BookingItem booking={booking} key={booking.id} />
+              ))}
+            </div>
+          </>
+        )}
 
         {/* BARBEARIAS */}
         <Barbershops />
