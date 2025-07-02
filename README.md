@@ -11,7 +11,7 @@ FSW Barber é uma plataforma web de agendamento online que conecta clientes a ba
 
 ## ✨ Funcionalidades
 
-✅ Cadastro e autenticação de usuários (NextAuth)  
+✅ Cadastro e autenticação de usuários com NextAuth
 ✅ Listagem de barbearias com serviços disponíveis  
 ✅ Visualização de detalhes e avaliações  
 ✅ Agendamento de horários online  
