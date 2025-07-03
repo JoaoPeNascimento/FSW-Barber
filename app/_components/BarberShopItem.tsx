@@ -12,10 +12,9 @@ interface BarbershopItemProps {
 
 const BarbershopItem = ({ barbershop }: BarbershopItemProps) => {
   return (
-    <Card className="min-w-[167px] rounded-2xl">
-      <CardContent className="p-0 px-1 pt-1">
-        {/* IMAGEM */}
-        <div className="relative h-[159px] w-full">
+    <Card className="min-w-[167px] lg:min-w-[400px] rounded-2xl">
+      <CardContent className="p-0 px-1 pt-1 flex flex-col lg:flex-row lg:items-start lg:space-x-4">
+        <div className="relative w-full h-[159px] lg:w-[180px] lg:h-[180px] flex-shrink-0">
           <Image
             fill
             className="object-cover rounded-2xl"
@@ -32,13 +31,18 @@ const BarbershopItem = ({ barbershop }: BarbershopItemProps) => {
           </Badge>
         </div>
 
-        {/* TEXTOS */}
-        <div className="py-3 px-1">
-          <h3 className="truncate font-semibold">{barbershop.name}</h3>
-          <p className="truncate text-sm text-gray-400">{barbershop.adress}</p>
-          <Button variant="secondary" className="mt-3 w-full" asChild>
-            <Link href={`/barbershops/${barbershop.id}`}>Reservar</Link>
-          </Button>
+        <div className="py-3 px-1 flex flex-col justify-start lg:py-2 lg:px-0 lg:h-[180px]">
+          <h3 className="truncate font-semibold lg:text-lg">
+            {barbershop.name}
+          </h3>
+          <p className="truncate text-sm text-gray-400 mt-1">
+            {barbershop.adress}
+          </p>
+          <div className="mt-3 lg:mt-auto">
+            <Button variant="secondary" className="w-full lg:w-auto" asChild>
+              <Link href={`/barbershops/${barbershop.id}`}>Reservar</Link>
+            </Button>
+          </div>
         </div>
       </CardContent>
     </Card>
