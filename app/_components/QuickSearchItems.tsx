@@ -3,7 +3,7 @@ import QuickSearchButton from "./QuickSearchButton";
 
 const QuickSearchItems = () => {
   return (
-    <div className="flex gap-2 mt-6 overflow-auto [&::-webkit-scrollbar]:hidden">
+    <div className="flex gap-2 mt-6 overflow-auto [&::-webkit-scrollbar]:hidden lg:hidden">
       {quickSearchOptions.map((option) => (
         <QuickSearchButton
           key={option.title}
