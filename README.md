@@ -18,19 +18,6 @@ FSW Barber é uma plataforma web de agendamento online que conecta clientes a ba
 ✅ Interface totalmente responsiva  
 ✅ Painel administrativo simplificado (opcional)
 
-## 📂 Estrutura do Projeto
-
-```
-fsw-barber/
-├── app/              # Rotas e páginas Next.js
-├── components/       # Componentes reutilizáveis
-├── lib/              # Helpers e configurações do Prisma
-├── prisma/           # Schema do banco de dados
-├── public/           # Arquivos estáticos
-├── styles/           # Estilos globais
-└── ...
-```
-
 ## ⚙️ Como Rodar Localmente
 
 1. **Clone o repositório:**
