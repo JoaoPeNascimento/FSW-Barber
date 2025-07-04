@@ -1,9 +1,9 @@
-import { db } from "../_lib/prisma";
+import { getBarbershops, popularBarbershops } from "../_data/get-barbershops";
 import BarbershopItem from "./BarberShopItem";
 import Title from "./Title";
 
 const Barbershops = async () => {
-  const barbershops = await db.barbershop.findMany({});
+  const barbershops = await getBarbershops();
 
   return (
     <>
@@ -18,12 +18,7 @@ const Barbershops = async () => {
 };
 
 const PopularBarbershop = async () => {
-  const popularBarbershop = await db.barbershop.findMany({
-    orderBy: {
-      name: "desc",
-    },
-  });
-
+  const popularBarbershop = await popularBarbershops();
   return (
     <>
       <Title>Populares</Title>
